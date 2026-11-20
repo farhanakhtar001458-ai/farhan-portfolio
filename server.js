@@ -1,10 +1,29 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
+
+// ========== EMAIL CONFIG ==========
+const EMAIL = 'farhanakhtar001458@gmail.com';
+const EMAIL_PASS = process.env.GMAIL_APP_PASSWORD || ''; // Set your Gmail App Password
+
+let transporter = null;
+if (EMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: EMAIL, pass: EMAIL_PASS }
+  });
+  transporter.verify((err) => {
+    if (err) console.log('⚠️  Email setup failed:', err.message);
+    else console.log('✅ Email notifications active → ' + EMAIL);
+  });
+} else {
+  console.log('⚠️  No GMAIL_APP_PASSWORD set — emails disabled (messages still saved to data/)');
+}
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -46,8 +65,8 @@ app.get('/api/visitors', (req, res) => {
   res.json({ visitors: stats.count });
 });
 
-// ========== API: CONTACT FORM ==========
-app.post('/api/contact', (req, res) => {
+// ========== API: CONTACT FORM + EMAIL ==========
+app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required.' });
@@ -63,6 +82,36 @@ app.post('/api/contact', (req, res) => {
   messages.push(entry);
   writeJSON('messages.json', messages);
   console.log(`📩 New message from ${entry.name} <${entry.email}>`);
+
+  // Send email notification
+  if (transporter) {
+    try {
+      await transporter.sendMail({
+        from: `"Portfolio Contact" <${EMAIL}>`,
+        to: EMAIL,
+        replyTo: entry.email,
+        subject: `🚀 New Portfolio Message from ${entry.name}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0a;color:#fff;padding:30px;border-radius:12px;">
+            <h2 style="color:#ff2d2d;margin-bottom:20px;">📩 New Contact Message</h2>
+            <table style="width:100%;border-collapse:collapse;">
+              <tr><td style="color:#888;padding:8px 0;">Name</td><td style="padding:8px 0;"><strong>${entry.name}</strong></td></tr>
+              <tr><td style="color:#888;padding:8px 0;">Email</td><td style="padding:8px 0;"><a href="mailto:${entry.email}" style="color:#ff2d2d;">${entry.email}</a></td></tr>
+              <tr><td style="color:#888;padding:8px 0;">Time</td><td style="padding:8px 0;">${new Date(entry.date).toLocaleString('en-IN', {timeZone:'Asia/Kolkata'})}</td></tr>
+            </table>
+            <div style="background:#111;padding:20px;border-radius:8px;margin-top:20px;border-left:3px solid #ff2d2d;">
+              <p style="color:#ccc;line-height:1.6;margin:0;">${entry.message}</p>
+            </div>
+            <p style="color:#555;font-size:12px;margin-top:20px;">— Farhan Akhtar Portfolio</p>
+          </div>
+        `
+      });
+      console.log('✅ Email sent to ' + EMAIL);
+    } catch (err) {
+      console.log('⚠️  Email failed:', err.message);
+    }
+  }
+
   res.json({ success: true, message: 'Message received! I\'ll get back to you soon. 🚀' });
 });
 
@@ -88,7 +137,7 @@ app.get('/api/profile', (req, res) => {
     socials: {
       github: 'https://github.com/',
       linkedin: 'https://linkedin.com/',
-      email: 'farhan@example.com'
+      email: 'farhanakhtar001458@gmail.com'
     }
   });
 });
