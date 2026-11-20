@@ -133,7 +133,33 @@ app.get('/api/profile', (req, res) => {
       'Coding Agent Builder', 'Frontend Development', 'Backend Development',
       'Vibe Coding', 'AI & Machine Learning', 'Problem Solving'
     ],
-    tech: ['Python', 'JavaScript', 'React', 'Node.js', 'HTML/CSS', 'TensorFlow', 'MongoDB', 'Express'],
+    tech: ['Python', 'JavaScript', 'React', 'Node.js', 'HTML/CSS', 'TensorFlow', 'PyTorch', 'YOLOv8', 'OpenCV', 'WebRTC', 'Socket.io', 'MongoDB', 'Express'],
+    projects: [
+      {
+        title: 'CCTV AI — Student Mobile Phone Detection',
+        category: 'Computer Vision · AI',
+        description: 'Real-time classroom surveillance detecting mobile phone usage with YOLOv8 & OpenCV.',
+        tech: ['Python', 'YOLOv8', 'OpenCV', 'TensorFlow', 'CCTV']
+      },
+      {
+        title: 'RealTime Chat App — WhatsApp Style',
+        category: 'Real-Time · Full Stack',
+        description: 'Instant messaging app with online status, typing indicators, and room support.',
+        tech: ['Socket.io', 'Node.js', 'React', 'MongoDB', 'WebSocket']
+      },
+      {
+        title: 'Real-Time Mobile Screen Share',
+        category: 'Real-Time · WebRTC',
+        description: 'Low-latency peer-to-peer screen streaming from mobile to browser.',
+        tech: ['WebRTC', 'Socket.io', 'Node.js', 'JavaScript', 'P2P']
+      },
+      {
+        title: 'Neural Network Plays Snake Game',
+        category: 'Neural Network · Reinforcement Learning',
+        description: 'Deep Q-learning agent that masters the classic Snake game from zero knowledge.',
+        tech: ['Python', 'PyTorch', 'Reinforcement Learning', 'Pygame', 'Neural Net']
+      }
+    ],
     socials: {
       github: 'https://github.com/',
       linkedin: 'https://linkedin.com/',

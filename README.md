@@ -15,6 +15,13 @@ A sleek, animated personal portfolio website built with **HTML/CSS/JavaScript** 
 - 📱 **Fully responsive** — mobile-friendly design
 - ⚡ **REST API** with 5 endpoints
 
+## 💡 Featured Projects
+
+- 📷 **CCTV AI — Student Mobile Phone Detection**: Real-time classroom surveillance detecting mobile phone usage with YOLOv8 & OpenCV.
+- 💬 **RealTime Chat App (WhatsApp Style)**: Instant messaging app with online presence, typing status, and room support using Socket.io & React.
+- 📱 **Real-Time Mobile Screen Share**: Low-latency peer-to-peer screen streaming from mobile to any browser using WebRTC.
+- 🐍 **Neural Network Plays Snake Game**: Deep reinforcement learning agent trained with PyTorch that learns to play Snake and adapt new strategies.
+
 ## 🛠 Tech Stack
 
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript
