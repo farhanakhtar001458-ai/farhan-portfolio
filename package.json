@@ -1,0 +1,28 @@
+{
+  "name": "parallel-todo-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Todo App demonstrating parallel agent workflow (backend + frontend + shared types)",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install && cd ../shared && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "typecheck": "cd backend && npm run typecheck && cd ../frontend && npm run typecheck && cd ../shared && npm run typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "parallel-agent",
+    "workflow",
+    "demo",
+    "todo",
+    "fullstack"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
